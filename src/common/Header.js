@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link ,NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+
 
 const Header = ({header})=>{
 
@@ -12,11 +13,7 @@ const Header = ({header})=>{
           </div>
             <ul className="nav nav-tabs">
                 <li className="nav-item active"> <Link to="/"className="nav-link active" >Home</Link></li>
-                {  
-                 header.map((item,i) => {
-                      return <li className="nav-item" key={i}> <NavLink to={item.title} className="nav-link" > {item.title}</NavLink></li>
-                  })
-               }
+                <li className="nav-item active"> <Link to="/user"className="nav-link active" >user</Link></li>            
             </ul>
           </div>
     </nav>
