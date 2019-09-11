@@ -1,25 +1,20 @@
 import React,{ Component } from 'react';
-import { Route,Switch } from 'react-router-dom';
-import Activite from '../component/Activite';
-import Contact from '../component/Contact';
-import Project from '../component/Project';
-import Home from '../component/Home';
-import AddHome from '../component/AddHome'
-import detailHome from '../component/DetailHome'
+import { Route,Switch,HashRouter} from 'react-router-dom';
+import login from '../component/loggin/loggin'
 import PageNotFound from '../common/PageNotFound'
+import user from '../component/user/user'
+import addUser from '../component/user/AddUser'
 
  class RouteComponent extends Component {
      render () {
          return (
             <div>
                 <Switch>
-                    <Route exact path ='/' component={Home}/>
-                    <Route path ='/activite' component={Activite}/>
-                    <Route path ='/contact' component={Contact}/>
-                    <Route path ='/project' component={Project}/>
-                    <Route path ='/addcomponent' component={AddHome}/>
-                    <Route path ="/:id" component={detailHome}/>
-                    <Route component={PageNotFound}/>
+                     <Route path='/user' component ={user}/>
+                     <Route path = '/adduser' component= {addUser}/>
+                     <Route path = '/:_id' component= {addUser}/>
+                     <Route path ="*/*" component={PageNotFound}/>
+                     <HashRouter path='/login' component ={login}/>
                 </Switch>    
             </div>
          )
