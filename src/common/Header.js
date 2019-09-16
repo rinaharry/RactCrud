@@ -1,22 +1,24 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
+import "./Header.css"
 
 
-const Header = ({header})=>{
 
+const Header = ({header,isAuthented})=>{
   return(
-
-    <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="navbar-header">
-             <Link to="/" > <button className="navbar-brand">LOGO </button></Link>
-          </div>
-            <ul className="nav nav-tabs">
-                <li className="nav-item active"> <Link to="/"className="nav-link active" >Home</Link></li>
-                <li className="nav-item active"> <Link to="/user"className="nav-link active" >user</Link></li>            
-            </ul>
-          </div>
+    <header className='header'>
+    <div className="header__logo">
+        <h1>Logo</h1>
+    </div>
+    <nav className="header__items">
+        <ul>
+        <li><NavLink to ="/user">user</NavLink></li>
+{!isAuthented ? <li><button ><NavLink to="/login">login</NavLink></button></li>:
+                <li><button ><NavLink to="/logout">logout</NavLink></button></li> 
+              }
+        </ul>
     </nav>
+</header>
   )
 }
 

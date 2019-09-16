@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from  'react-redux'
-import {addUser, upadteUser} from '../../action/userAction'
+import {addUser, upadteUser} from '../../store/action/userAction'
 import {Redirect} from 'react-router-dom'
 class AddUser extends  Component{
   state= {
     _id: this.props.user? this.props.user._id: null,
     lastName: this.props.user ? this.props.user.lastName:  "",
-    firstname: this.props.user ? this.props.user.firstname:  "",
+    firstName: this.props.user ? this.props.user.firstName:  "",
     contact: this.props.user ? this.props.user.contact: "",
     adrress: this.props.user ? this.props.user.adrress:  "",
     matricule: this.props.user ? this.props.user.matricule:  "",
@@ -24,7 +24,7 @@ class AddUser extends  Component{
   
   onCreate = (e) => {
         e.preventDefault()
-        console.log(this.state)
+         console.log(this.state)
         this.props.addUser(this.state)
         .then(res =>{
                 console.log(res)
@@ -51,54 +51,60 @@ class AddUser extends  Component{
         )
         
     }
-    render (){
-     const from = <div className=" card text-center">
-            <form className="form-horizontal text-justify">
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="lastName">lastName</label>
-                    <div className="col-sm-4">
-                        <input type="text" className="form-control" id="lastName" value={this.state.lastName} onChange={this.onchange} placeholder="lastName"/>
+    render (){ const form  = 
+                <div className="container  py-3 mt-5">
+                <div className="card o-hidden border-0 shadow-lg  mt-5">
+                  <div className="card-body p-0"> 
+                    <div className="row">
+                        <div className="col-lg-12">
+                        <div className="p-5">
+                          <div className="text-center">
+                            <h1 className="h4 text-gray-900 mb-4">Create an User!</h1>
+                          </div>
+                          <form className="user">
+                            <div className="form-group row">
+                              <div className="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" className="form-control form-control-user" id="firstName" defaultValue={this.state.firstName} onChange={this.onchange}  placeholder="First Name"/>
+                              </div>
+                              <div className="col-sm-6">
+                                <input type="text" className="form-control form-control-user" id="lastName" defaultValue= {this.state.lastName} onChange={this.onchange} placeholder="Last Name"/>
+                              </div>
+                            </div>
+                            <div className="form-group row">
+                              <div className="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" className="form-control form-control-user" id="contact" defaultValue={this.state.contact} onChange={this.onchange} placeholder="nummber phone"/>
+                              </div>
+                              <div className="col-sm-6">
+                                <input type="text" className="form-control form-control-user" id="matricule" defaultValue={this.state.matricule} onChange={this.onchange} placeholder="matricule"/>
+                              </div>
+                            </div>
+                            <div className="form-group">
+                              <input type="email" className="form-control form-control-user" id="email" defaultValue={this.state.email} onChange={this.onchange} placeholder="Email Address"/>
+                            </div>
+                            <div className="form-group row">
+                              <div className="col-sm-6 mb-3 mb-sm-0">
+                                <input type="password" className="form-control form-control-user" id="password" defaultValue={this.state.password} onChange={this.onchange} placeholder="Password"/>
+                              </div>
+                              <div className="col-sm-6">
+                                <input type="text" className="form-control form-control-user" id="adrress" onChange={this.onchange} defaultValue={this.state.adrress} placeholder="Adress"/>
+                              </div>
+                            </div>
+                            {this.props.user && <button className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={this.upadateduser}>
+                            update 
+                            </button>}
+                            {this.state._id === null && <button className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={ this.onCreate}>
+                            save
+                            </button>}
+                          </form>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="firstname">firstname</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="firstname" value={this.state.firstname} onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="adrress">adrress</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="adrress" value={this.state.adrress}  onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-                
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="matricule">matricule</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="matricule"value={this.state.matricule}   onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="contact">contact</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="contact" value={this.state.contact}  onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-
-                <div className="form-group"> 
-                    <div className="col-sm-offset-2 col-sm-4">
-                        {this.props.user && <button type="submit" className="btn btn-default" onClick ={ this.upadateduser}>update</button>}
-                        {this.state._id===null && <button type="submit" className="btn btn-default" onClick ={  this.onCreate}>create</button>}
-                    </div>
-                </div>
-            </form>
-        </div>  
+              </div>
         
         return(
-            this.state.done? <Redirect to="user"/>: from
+            this.state.done? <Redirect to="/user"/>:form
         )
     }
 }
@@ -106,7 +112,7 @@ function mapStateToProps(state, props){
     const {match} = props
     if(match.params._id){
         return {
-            user:  state.users.find(user =>user._id === match.params._id)
+            user:  state.users.find(user => user._id === match.params._id)
         }
     }  
     return {

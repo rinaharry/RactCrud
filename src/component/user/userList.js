@@ -1,6 +1,6 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
+import { NavLink} from 'react-router-dom'
+
 
 
 const userList = props => {
@@ -9,10 +9,10 @@ const userList = props => {
             <tbody key={i}>
                    <tr>
                      <td className="text-center">{user.lastName}</td>
-                     <td className="text-center">{user.firstname} </td>
+                     <td className="text-center">{user.firstName} </td>
                      <td className="text-center"> {user.adrress}</td>
-                     <td><button type="button" className="btn btn-warning btn-xs"> <Link to ={`/${user._id}`}>EDIT</Link></button></td>
-                     <td><button type="button" onClick={()=>props.delelteUser(user)}  className="btn btn-danger btn-xs">Delete</button></td>
+                     <td><button type="button" className="btn btn-warning btn-xs"> <NavLink to ={`/user/${user._id}`}>EDIT</NavLink></button></td>
+                     <td><button type="button" onClick={()=>props.deleteUser(user)}  className="btn btn-danger btn-xs">Delete</button></td>
                     </tr> 
             </tbody>    
        )
