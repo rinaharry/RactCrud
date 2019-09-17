@@ -12,11 +12,4 @@ const PageNotFound = ({location}) => {
 };
 
 
-
-// PageNotFound.propTypes = {
-//     location: PropTypes.object.isRequired
-// };
-
-
-
 export default PageNotFound;

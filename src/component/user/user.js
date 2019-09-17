@@ -3,33 +3,27 @@ import {connect} from 'react-redux'
 import {getUser,deleteUser} from  '../../store/action/userAction'
 import UserList from './userList'
 import {Link} from 'react-router-dom'
-import Modal from '../../common/Modal'
+import Modal from '../../common/modal/Modal'
 
 
  class user extends Component {
-     state={
-          users:[],
+
+     state = {
           deleteUser: false
-     }
-  componentDidMount(){
+       }
+
+  componentDidMount () {
+
     if(this.props.token!== null){
       this.fecthUser()
-    }else{
+    } else {
       this.props.history.push('/login');
     }
 
   }
-  fecthUser= ()=>{
-  //  console.log(this.props.token, this.props.users)
 
-    this.props.onFetcuser(this.props.token)
-      .then(res=>{
-         this.setState({
-            users: res.users
-          })
-       // console.log(res)
-    })
-    .catch(err=>{})
+  fecthUser = () => {
+    this.props.onFetchUserr(this.props.token)
   }
   deleteUser = (user) => {
     this.setState({
@@ -38,16 +32,16 @@ import Modal from '../../common/Modal'
   
     this.props.ondeleteUser(user)
     .then(
-      res=>{
+      res => {
         this.fecthUser()
       }
     )
     
   }
-  
-    render(){
+   render() {
         return (
             <div>
+
                <h1>user component</h1>
                {this.props.token &&<UserList  users={this.props.users} deleteUser= {this.deleteUser}/>}
                <button><Link to ="/user/adduser"> add user</Link> </button>
@@ -58,16 +52,18 @@ import Modal from '../../common/Modal'
         )
       }
   }
- const  mapStateToProps=(state) =>{
+ const  mapStateToProps = (state) => {
+
   return {
-      users: state.users,
+      users: state.users.users,
       token : state.auth.token
     }
   }
-  const mapDispatchToProps = dispatch=>{
+  const mapDispatchToProps = dispatch => {
+    
     return {
-      onFetcuser: (token) => dispatch(getUser(token)),
-      ondeleteUser: (user)=>dispatch(deleteUser(user))
+      onFetchUserr: (token) => dispatch(getUser(token)),
+      ondeleteUser: (user) => dispatch(deleteUser(user))
     }
   }
 export default connect(mapStateToProps,mapDispatchToProps) (user);

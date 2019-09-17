@@ -1,36 +1,56 @@
 import axios from '../../UrlBase'
-
 export const GET_USER = "GET_USER"
 export const ADD_USER = "ADD_USER"
 export const  DEl_USER = "DEl_USER"
+export const UPDATE_USER = "UPDATE_USER"
+export const USER_ERROR = "USER_ERROR"
+
 
 export function setUser(users){
-    if(users){
+
+if (users) {
     return {
         type: GET_USER,
         users
-    }}else{
-        return {
+    }
+} else {
+     return {
             type: GET_USER,
             users:[]
         }  
     }
 }
-export function setadduser(user){
+
+export function setadduser(user) {
     return {
         type: ADD_USER,
         user
     }
 }
+
 export function ondeleteUser(user){
     return {
         type: DEl_USER,
         user
     }
 }
+
+export function updateuser(user){
+    return{
+        type: UPDATE_USER,
+        user
+    }
+}
+
+export function userfailed(error) {
+    return {
+        type: USER_ERROR,
+        error
+    }
+}
+
 export const getUser = (token) => {
-   // console.log(token)
-  return async dispatch=>{
+  return async dispatch => {
       try{
         const res = await axios.get('/',{
             headers: {
@@ -40,34 +60,47 @@ export const getUser = (token) => {
         });  
       return dispatch(setUser(res.data.data));
       }catch(err){
-         throw err
+        return dispatch(userfailed(err.response.data.message))
       }
    }
 }
 
 export const addUser = (user) => {
         return async (dispatch) => {
-           try{
+           try {
             const res = await axios.post('/', user);
-
+            console.log(res.data.data)
             return dispatch(setadduser(res.data.data))
            } catch(err){
-            throw err
+               console.log(err.response)
+            return dispatch(userfailed(err.response.data.message))
            }
           
-        }
+      }
 }
-export const upadteUser = (user)=>{
-    //console.log(user)
-    return async dispatch=>{
+
+export const upadteUser = (user) => {
+ 
+    return async dispatch => {
+        try{
         const res = await axios.put(`/${user._id}`, user)
-        console.log(res)
+        return dispatch(updateuser(res))
+         }
+        catch(err) {
+            return dispatch(userfailed(err.response.data.message))
+        }
     }
 }
-export const deleteUser = (user)=>{
-   // console.log(user)
-    return async dispatch=>{
-        const res = await axios.delete(`http://localhost:3002/${user._id}`, user)
-         return dispatch(ondeleteUser(res))
+
+export const deleteUser = (user) => {
+ 
+    return async dispatch => {
+        try {
+            const res = await axios.delete(`http://localhost:3002/${user._id}`, user)
+            return dispatch(ondeleteUser(res))
+        }
+         catch (err) {
+            return dispatch(userfailed(err.response.data.message))
+        }
     }   
 }

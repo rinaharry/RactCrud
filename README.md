@@ -19,6 +19,9 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `npm run build`
 
+
+
+
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
@@ -67,3 +70,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 "# RactCrud" 
+
+### rien etait gratuit
+###  exercice a faire
+valide la formulaire comme ce que je fait a la component login,
+Rectifier Action login il y a quelque fonctionnalite mal fonctionne la bas 

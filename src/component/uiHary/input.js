@@ -1,13 +1,14 @@
 import React from 'react';
-
 import './input.css';
 
 const input = props => (
+
   <div className="input">
     {props.label && <label htmlFor={props.id}>{props.label}</label>}
     {props.control === 'input' && (
       <input
-        className={[
+        className = {[
+          'form-control',
           !props.valid ? 'invalid' : 'valid',
            props.touched ? 'touched' : 'untouched'
          ].join(' ')}
@@ -26,12 +27,12 @@ const input = props => (
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched'
         ].join(' ')}
-        id={props.id}
-        rows={props.rows}
-        required={props.required}
-        value={props.value}
-        onChange={e => props.onChange(props.id, e.target.value)}
-        onBlur={props.onBlur}
+        id = {props.id}
+        rows = {props.rows}
+        required = {props.required}
+        value = {props.value}
+        onChange = {e => props.onChange(props.id, e.target.value)}
+        onBlur = {props.onBlur}
       />
     )}
   </div>

@@ -1,7 +1,5 @@
 import React from 'react'
-import { NavLink} from 'react-router-dom'
-
-
+import { Link} from 'react-router-dom'
 
 const userList = props => {
     
@@ -11,24 +9,31 @@ const userList = props => {
                      <td className="text-center">{user.lastName}</td>
                      <td className="text-center">{user.firstName} </td>
                      <td className="text-center"> {user.adrress}</td>
-                     <td><button type="button" className="btn btn-warning btn-xs"> <NavLink to ={`/user/${user._id}`}>EDIT</NavLink></button></td>
-                     <td><button type="button" onClick={()=>props.deleteUser(user)}  className="btn btn-danger btn-xs">Delete</button></td>
-                    </tr> 
+                     <td className="text-center"> {user.email}</td>
+                     <td><Link to ={`/user/${user._id}`}> <i className="fa fa-edit btn btn-info"> EDIT</i></Link></td>
+                     <td><i className="fas fa-trash btn btn-danger" onClick={()=>props.deleteUser(user)} >Delete</i></td>
+                    </tr>
             </tbody>    
        )
-      return(
-        <div>
-            <table className="table table-bordered table-striped">
+      return (
+        <div className= "container-fluid">
+          <div className="row ">
+           <div className= "col-lg-12 text-center py-2">  
+            <table className="table table-bordered table-striped ">
               <thead>
                   <tr>
-                      <th className="text-center">nom</th>
-                      <th className="text-center">age</th>
-                      <th className="text-center">adress</th>
+                      <th className="text-center">lastName</th>
+                      <th className="text-center">firstName</th>
+                      <th className="text-center">adrress</th>
+                      <th className="text-center">email</th>
                   </tr>
               </thead>
                   {usertab }
-           </table>  
-           </div>    
+           </table>
+           <i className="fas fa-file-invoice-dollar    "></i> 
+          </div>  
+         </div>  
+        </div>    
           )          
 }
 export default userList

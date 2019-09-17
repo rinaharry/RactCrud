@@ -2,7 +2,8 @@
 import React , {Component} from 'react';
 
 class Footer extends Component {
-    render(){
+
+    render () {
         return(
             <footer className="sticky-footer bg-white">
             <div className="container my-auto">

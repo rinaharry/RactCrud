@@ -1,5 +1,6 @@
 import * as ActionType from '../action/ActionType'
-const initialiseState={
+
+const initialiseState = {
     token :null,
     userId: null,
     error:null, 
@@ -7,10 +8,13 @@ const initialiseState={
     authRedirectPath: '/'
 }
 
-const reduce =(state = initialiseState, action)=>{
+
+const reduce =(state = initialiseState, action) => {
+    
     switch (action.type) {
 
          case ActionType.AUTH_START:
+
             return {
                 ...state,
                 error: null,
@@ -18,7 +22,7 @@ const reduce =(state = initialiseState, action)=>{
             }
 
          case ActionType.AUTH_SUCCESS:
-           //  console.log(action.success)
+           
             return {
                 ...state,
                 ...action.success,
@@ -26,6 +30,7 @@ const reduce =(state = initialiseState, action)=>{
             }
 
          case ActionType.AUTH_FAIL:
+
              return {
                  ...state,
                  loading: false,
@@ -34,15 +39,19 @@ const reduce =(state = initialiseState, action)=>{
              }
 
          case ActionType.AUTH_LOGOUT:
+
              return {
                  ...state,
                  token : null,
                  userId: null,
              }     
-        case ActionType.SET_AUTH_REDIRECT_PATH: return {
-            ...state,
-            ...action.path
-        }
+         case ActionType.SET_AUTH_REDIRECT_PATH:
+            
+             return {
+                ...state,
+                ...action.path
+           }
+
          default:
            return state
        }
