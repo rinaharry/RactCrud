@@ -1,116 +1,319 @@
 import React, {Component} from 'react'
 import {connect} from  'react-redux'
-import {addUser, upadteUser} from '../../action/userAction'
+import {addUser, upadteUser} from '../../store/action/userAction'
 import {Redirect} from 'react-router-dom'
-class AddUser extends  Component{
-  state= {
-    _id: this.props.user? this.props.user._id: null,
-    lastName: this.props.user ? this.props.user.lastName:  "",
-    firstname: this.props.user ? this.props.user.firstname:  "",
-    contact: this.props.user ? this.props.user.contact: "",
-    adrress: this.props.user ? this.props.user.adrress:  "",
-    matricule: this.props.user ? this.props.user.matricule:  "",
-    done: false
-  }
+import Spinner from '../../common/spinner/Spinner'
+import { required, length,email } from '../../util/validator';
+import Input from '../uiHary/input'
+class AddUser extends  Component {
   
-   onchange = (e) =>{
-      this.setState({
-        [e.target.id]: e.target.value,
+  state = {
+    userForm:{
+      _id:{ 
+        value:this.props.user? this.props.user._id: null,
+        valid: true,
+        touched: true,   
+      },
+      email:{
+        value: this.props.user ? this.props.user.email: "",
+        valid: false,
+        touched: false,
+        validators: [required, email]
+       },
+       lastName:{
+        value: this.props.user ? this.props.user.lastName: "",
+        valid: false,
+        touched: false,
+        validators: [required, length({ min:2})]
+       },
+       firstName:{
+        value: this.props.user ? this.props.user.firstName: "",
+        valid: false,
+        touched: false,
+        validators: [required,length({ min:2})]
+       },
+       contact:{
+        value: this.props.user ? this.props.user.contact: "",
+        valid: false,
+        touched: false,
+        validators: [required,length({ min:2})]
+       },
+       adrress:{
+        value: this.props.user ? this.props.user.adrress:  "",
+        valid: false,
+        touched: false,
+        validators: [required, length({ min:2})]
+       },
+       password:{
+        value: this.props.user ? this.props.user.password:  "",
+        valid: false,
+        touched: false,
+        validators: [required, length({ min:2})]
+       },
+    },
+    done: false,
+    loading: false,
+    formIsValid: false
+  }
+
+  componentDidMount () {
+    console.log(this.props.user)
+  }
+  handleChange=( input, value) =>{
+
+    //console.log(this.state.formIsValid)
+    this.setState( prevState => {
+      let isValid = true;
+      console.log(input)
+      for (const validator of prevState.userForm[input].validators) {
+        isValid = isValid && validator(value);
+      }
+      const updatedForm = {
+        ...prevState.userForm,
+        [input]: {
+          ...prevState.userForm[input],
+           valid: isValid,
+           value: value
+        }
+      };
+    //  console.log(updatedForm)
+      let formIsValid = true;
+      for (const inputName in updatedForm) {
+        formIsValid = formIsValid && updatedForm[inputName].valid;
+      }
+      return {
+        userForm: updatedForm,
+        formIsValid: formIsValid
+      };
+    });
+  }
+  inputBlurHandler = input => {
+    this.setState(prevState => {
+      return {
+        userForm : {
+          ...prevState.userForm,
+          [input]: {
+            ...prevState.userForm[input],
+            touched: true
+          }
+        }
+      };
+    });
+  }
+  HandlerSubmit = (e) => {
+        e.preventDefault()
+        this.setState({
+          loading: true 
       })
-    }
-  componentDidMount(){
-      console.log(this.state)
+      const user = {
+        email: this.state.userForm.email.value,
+        lastName:this.state.userForm.lastName.value,
+        firstName: this.state.userForm.firstName.value,
+        contact:this.state.userForm.contact.value,
+        adrress: this.state.userForm.adrress.value,
+        password: this.state.userForm.password.value
+        
+      }
+      this.props.onCreateUser(user, this.props.error)
+        .then( res => {
+           if (this.props.error === null) {
+             this.setState({
+               done: true,
+               loading: false
+              
+            })
+          } else{
+           this.setState({
+              done: false,
+              loading: false
+            
+           }) 
+         }
+        })  
   }
-  
-  onCreate = (e) => {
-        e.preventDefault()
-        console.log(this.state)
-        this.props.addUser(this.state)
-        .then(res =>{
-                console.log(res)
-                this.setState({
-                    done: true
-                })
+
+  upadateduser = (e) => {
+    this.setState({
+      loading: true
+    });
+    const user = {
+      email: this.state.userForm.email.value,
+      lastName:this.state.userForm.lastName.value,
+      firstName: this.state.userForm.firstName.value,
+      contact:this.state.userForm.contact.value,
+      adrress: this.state.userForm.adrress.value,
+      password: this.state.userForm.password.value,
+      _id: this.state.userForm._id.value
+    }
+
+     e.preventDefault()
+      this.props.onUpdateUser(user)
+      .then( res => {
+        if( this.props.error === null) {
+            this.setState({
+             done: true,
+             loading: false
+            
          })
-         .catch(
-             err=>{
-                 console.log(err)
-             }
-         )
-    }
+        } else{
+         this.setState({
+           done: false, 
+           loading: false
+          
+         }) 
+       }
+      })  
+  }
 
-  upadateduser = (e) =>{
-        e.preventDefault()
-        this.props.upadteUser(this.state)
-        .then(
-            res=>{
-                this.setState({
-                    done: true
-                })
-            }
-        )
-        
-    }
-    render (){
-     const from = <div className=" card text-center">
-            <form className="form-horizontal text-justify">
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="lastName">lastName</label>
-                    <div className="col-sm-4">
-                        <input type="text" className="form-control" id="lastName" value={this.state.lastName} onChange={this.onchange} placeholder="lastName"/>
+  render () { 
+    
+    const form  = <div className="container  py-3 mt-5">
+                   <div className="card o-hidden border-0 shadow-lg  mt-5">
+                    <div className="card-body p-0"> 
+                      <div className="row">
+                        <div className="col-lg-12">
+                        <div className="p-5">
+                          <div className="text-center">
+                            <h1 className="h4 text-gray-900 mb-4">{this.props.name}!</h1>
+                            {this.props.error}
+                            {this.state.loading && <Spinner/>}
+                          </div>
+                          <form className="user">
+                            <div className="form-group row">
+                              <div className="col-sm-6 mb-3 mb-sm-0">
+                                <Input control="input"
+                                          id="email"
+                                          label="Email"
+                                          type="email"
+                                          onChange={this.handleChange}
+                                          onBlur={this.inputBlurHandler.bind(this, 'email')}
+                                          value={this.state.userForm.email.value}
+                                          valid={this.state.userForm.email.valid}
+                                          touched={this.state.userForm.email.touched}
+                                        
+                                   />
+                              </div>
+                              <div className="col-sm-6">
+                               <Input control="input"
+                                       id="lastName"
+                                       label="lastName"
+                                       type="text"
+                                       onChange={this.handleChange}
+                                       onBlur={this.inputBlurHandler.bind(this, 'lastName')}
+                                       value={this.state.userForm.lastName.value}
+                                       valid={this.state.userForm.lastName.valid}
+                                       touched={this.state.userForm.lastName.touched}                                        
+                                   />  
+                              </div>
+                            </div>
+                            <div className="form-group row">
+                              <div className="col-sm-6 mb-3 mb-sm-0">
+                              <Input control="input"
+                                          id="firstName"
+                                          label="firstName"
+                                          type="text"
+                                          onChange={this.handleChange}
+                                          onBlur={this.inputBlurHandler.bind(this, 'firstName')}
+                                          value={this.state.userForm.firstName.value}
+                                          valid={this.state.userForm.firstName.valid}
+                                          touched={this.state.userForm.firstName.touched}
+                                        
+                                   />
+                              </div>
+                              <div className="col-sm-6">
+                              <Input control="input"
+                                          id="adrress"
+                                          label="adrress"
+                                          type="text"
+                                          onChange={this.handleChange}
+                                          onBlur={this.inputBlurHandler.bind(this, 'adrress')}
+                                          value={this.state.userForm.adrress.value}
+                                          valid={this.state.userForm.adrress.valid}
+                                          touched={this.state.userForm.adrress.touched}
+                                        
+                                   />
+                              </div>
+                            </div>
+                            <div className="form-group  row">
+                               <div className="col-sm-6 mb-3 mb-sm-0">
+                                 <Input control="input"
+                                          id="contact"
+                                          label="contact"
+                                          type="text"
+                                          onChange={this.handleChange}
+                                          onBlur={this.inputBlurHandler.bind(this, 'contact')}
+                                          value={this.state.userForm.contact.value}
+                                          valid={this.state.userForm.contact.valid}
+                                          touched={this.state.userForm.contact.touched}
+                                        
+                                    />
+                                </div>
+                                <div className="col-sm-6">
+                              
+                                </div>
+                            </div>
+                        {!this.props.user && 
+                            <div className="form-group row">
+                              <div className="col-sm-6 mb-3 mb-sm-0">
+                               <Input control="input"
+                                          id="password"
+                                          label="password"
+                                          type="password"
+                                          onChange={this.handleChange}
+                                          onBlur={this.inputBlurHandler.bind(this, 'password')}
+                                          value={this.state.userForm.password.value}
+                                          valid={this.state.userForm.password.valid}
+                                          touched={this.state.userForm.password.touched}    
+                                   />
+                              </div>
+                              <div className="col-sm-6">
+                               
+                              </div>
+                            </div>}
+                              {this.props.user &&
+                                 <button className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={this.upadateduser}>
+                                   update 
+                                 </button>
+                             }
+                             {this.state.userForm._id.value === null &&
+                                <button disabled={!this.state.formIsValid} className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={ this.HandlerSubmit}>
+                                  save
+                                </button>
+                              }
+                          </form>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="firstname">firstname</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="firstname" value={this.state.firstname} onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="adrress">adrress</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="adrress" value={this.state.adrress}  onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-                
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="matricule">matricule</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="matricule"value={this.state.matricule}   onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="contact">contact</label>
-                    <div className="col-sm-4"> 
-                        <input type="text" className="form-control" id="contact" value={this.state.contact}  onChange={this.onchange} placeholder="Enter text"/>
-                    </div>
-                </div>
-
-                <div className="form-group"> 
-                    <div className="col-sm-offset-2 col-sm-4">
-                        {this.props.user && <button type="submit" className="btn btn-default" onClick ={ this.upadateduser}>update</button>}
-                        {this.state._id===null && <button type="submit" className="btn btn-default" onClick ={  this.onCreate}>create</button>}
-                    </div>
-                </div>
-            </form>
-        </div>  
-        
-        return(
-            this.state.done? <Redirect to="user"/>: from
+              </div>
+     return (
+          this.state.done ? <Redirect to="/user"/> : form
         )
     }
 }
-function mapStateToProps(state, props){
-    const {match} = props
-    if(match.params._id){
+const mapDispatchToProps = dispatch => {
+
+  return {
+    onCreateUser:(user) => dispatch(addUser(user)),
+    onUpdateUser:(user) => dispatch(upadteUser(user))
+  }
+
+}
+function mapStateToProps (state, props) {
+  const {match} = props
+
+    if (match.params._id) {
         return {
-            user:  state.users.find(user =>user._id === match.params._id)
+            user:  state.users.users.find(user => user._id === match.params._id),
+            error: state.users.error,
+            name:"update user"
         }
-    }  
+    }
     return {
-            user: null
-        }
+            user: null,
+            error: state.users.error,
+            name:"add user"
+      }
 }
-export default connect(mapStateToProps, {addUser, upadteUser}) (AddUser);
+export default connect(mapStateToProps, mapDispatchToProps) (AddUser);
