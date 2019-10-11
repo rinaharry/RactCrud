@@ -30,4 +30,6 @@
     border-color: #3b0062;
     color: #3b0062;
   }
-  
+  .form-group{
+    margin-bottom: 0rem !important
+  }

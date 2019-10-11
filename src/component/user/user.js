@@ -1,6 +1,6 @@
 import React ,{Component} from 'react'
 import {connect} from 'react-redux'
-import {getUser,deleteUser} from  '../../store/action/userAction'
+import {getUser,deleteUser,activeDesactiveUser} from  '../../store/action/userAction'
 import UserList from './userList'
 import {Link} from 'react-router-dom'
 import Modal from '../../common/modal/Modal'
@@ -38,13 +38,18 @@ import Modal from '../../common/modal/Modal'
     )
     
   }
+activeDesactiveuser =  (user)=>{
+   this.props.activedesactiveuser(user)
+}
    render() {
         return (
             <div>
 
-               <h1>user component</h1>
-               {this.props.token &&<UserList  users={this.props.users} deleteUser= {this.deleteUser}/>}
-               <button><Link to ="/user/adduser"> add user</Link> </button>
+            
+               {this.props.token &&<UserList  users={this.props.users} deleteUser= {this.deleteUser} activeDesactiveuser={this.activeDesactiveuser}/>}
+               <div className="text-right mr-5">
+                  <Link to ="/user/adduser"> <button className="btn btn-primary"> add user </button></Link> 
+               </div>
                {this.state.deleteUser && <Modal title= "delete use"/>}
                
             </div>
@@ -63,7 +68,8 @@ import Modal from '../../common/modal/Modal'
     
     return {
       onFetchUserr: (token) => dispatch(getUser(token)),
-      ondeleteUser: (user) => dispatch(deleteUser(user))
+      ondeleteUser: (user) => dispatch(deleteUser(user)),
+      activedesactiveuser: (user) => dispatch(activeDesactiveUser(user))
     }
   }
 export default connect(mapStateToProps,mapDispatchToProps) (user);

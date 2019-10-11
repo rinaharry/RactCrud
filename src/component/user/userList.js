@@ -10,8 +10,9 @@ const userList = props => {
                      <td className="text-center">{user.firstName} </td>
                      <td className="text-center"> {user.adrress}</td>
                      <td className="text-center"> {user.email}</td>
-                     <td><Link to ={`/user/${user._id}`}> <i className="fa fa-edit btn btn-info"> EDIT</i></Link></td>
-                     <td><i className="fas fa-trash btn btn-danger" onClick={()=>props.deleteUser(user)} >Delete</i></td>
+                     <td style={{cursor:"pointer"}} className={user.status? "btn-success": "btn-danger"} onClick={()=>props.activeDesactiveuser(user)} role="button"> {user.status? "active": "desactive"}</td>
+                     <td><Link to ={`/user/${user._id}`}> <i className="fa fa-edit btn btn-info"></i></Link></td>
+                     <td  onClick={()=>props.deleteUser(user)} style={{cursor:"pointer"}}><i className="fa fa-trash btn btn-danger" ></i></td>
                     </tr>
             </tbody>    
        )
@@ -19,7 +20,7 @@ const userList = props => {
         <div className= "container-fluid">
           <div className="row ">
            <div className= "col-lg-12 text-center py-2">  
-            <table className="table table-bordered table-striped ">
+            <table className="table table-stripped ">
               <thead>
                   <tr>
                       <th className="text-center">lastName</th>

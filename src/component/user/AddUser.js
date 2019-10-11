@@ -167,14 +167,14 @@ class AddUser extends  Component {
 
   render () { 
     
-    const form  = <div className="container  py-3 mt-5">
+    const form  = <div className="container  mt-5">
                    <div className="card o-hidden border-0 shadow-lg  mt-5">
                     <div className="card-body p-0"> 
                       <div className="row">
                         <div className="col-lg-12">
                         <div className="p-5">
                           <div className="text-center">
-                            <h1 className="h4 text-gray-900 mb-4">{this.props.name}!</h1>
+                         
                             {this.props.error}
                             {this.state.loading && <Spinner/>}
                           </div>
@@ -248,14 +248,8 @@ class AddUser extends  Component {
                                         
                                     />
                                 </div>
-                                <div className="col-sm-6">
-                              
-                                </div>
-                            </div>
-                        {!this.props.user && 
-                            <div className="form-group row">
-                              <div className="col-sm-6 mb-3 mb-sm-0">
-                               <Input control="input"
+                                {!this.props.user && <div className="col-sm-6">
+                                <Input control="input"
                                           id="password"
                                           label="password"
                                           type="password"
@@ -265,20 +259,30 @@ class AddUser extends  Component {
                                           valid={this.state.userForm.password.valid}
                                           touched={this.state.userForm.password.touched}    
                                    />
+                                </div>}
+                            </div>
+                        
+                            {/* <div className="form-group row">
+                              <div className="col-sm-6 mb-3 mb-sm-0">
+                              
                               </div>
                               <div className="col-sm-6">
                                
                               </div>
-                            </div>}
+                            </div> */}
                               {this.props.user &&
+                              <div className="text-right">
                                  <button className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={this.upadateduser}>
                                    update 
                                  </button>
+                              </div>   
                              }
                              {this.state.userForm._id.value === null &&
-                                <button disabled={!this.state.formIsValid} className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={ this.HandlerSubmit}>
-                                  save
-                                </button>
+                                <div className="text-right">
+                                   <button disabled={!this.state.formIsValid} className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={ this.HandlerSubmit}>
+                                      save
+                                   </button>
+                                </div>
                               }
                           </form>
                         </div>
