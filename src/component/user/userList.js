@@ -20,7 +20,7 @@ const userList = props => {
         <div className= "container-fluid">
           <div className="row ">
            <div className= "col-lg-12 text-center py-2">  
-            <table className="table table-stripped ">
+            <table className="table table-stripped display" id="example"  style={{width:"100%"}}>
               <thead>
                   <tr>
                       <th className="text-center">lastName</th>

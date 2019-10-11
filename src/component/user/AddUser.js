@@ -192,6 +192,12 @@ class AddUser extends  Component {
                                           touched={this.state.userForm.email.touched}
                                         
                                    />
+                                    <div className="valid-feedback feedback-icon">
+          <i className="fa fa-check"></i>
+     </div>
+     <div className="invalid-feedback feedback-icon">
+          <i className="fa fa-times"></i>
+       </div>
                               </div>
                               <div className="col-sm-6">
                                <Input control="input"

@@ -9,7 +9,8 @@ const input = props => (
       <input
         className = {[
           'form-control',
-          !props.valid ? 'invalid' : 'valid',
+          
+          !props.valid ? 'invalid' : 'is-valid',
            props.touched ? 'touched' : 'untouched'
          ].join(' ')}
         type={props.type}

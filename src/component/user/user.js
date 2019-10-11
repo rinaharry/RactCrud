@@ -4,7 +4,7 @@ import {getUser,deleteUser,activeDesactiveUser} from  '../../store/action/userAc
 import UserList from './userList'
 import {Link} from 'react-router-dom'
 import Modal from '../../common/modal/Modal'
-
+import $ from 'jquery'
 
  class user extends Component {
 
@@ -13,7 +13,9 @@ import Modal from '../../common/modal/Modal'
        }
 
   componentDidMount () {
-
+  //   $(document).ready(function() {
+  //     $('#example').DataTable();
+  // } );
     if(this.props.token!== null){
       this.fecthUser()
     } else {
