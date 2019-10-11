@@ -65,7 +65,10 @@ export const getUser = (token) => {
             'Authorization': `${token}`
              }
         });  
-      return dispatch(setUser(res.data.data));
+        if(res){
+            return dispatch(setUser(res.data.data));
+        }
+        
       }catch(err){
         return dispatch(userfailed(err.response.data.message))
       }
