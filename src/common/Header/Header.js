@@ -9,7 +9,7 @@ const Header = ({isAuthented})=>{
     isAuthented ?
     <nav id="sidebar">
     <div className="sidebar-header">
-        <h3><i className="fa fa-database" aria-hidden="true"></i> Dashboard</h3>
+        <h3><NavLink to='/home'><i className="fa fa-database" aria-hidden="true"></i> Dashboard</NavLink></h3>
     </div>
 
     <ul className="list-unstyled components">

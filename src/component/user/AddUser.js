@@ -76,7 +76,7 @@ class AddUser extends  Component {
            value: value
         }
       };
-    //  console.log(updatedForm)
+  
       let formIsValid = true;
       for (const inputName in updatedForm) {
         formIsValid = formIsValid && updatedForm[inputName].valid;
@@ -277,14 +277,14 @@ class AddUser extends  Component {
                               </div>
                             </div> */}
                               {this.props.user &&
-                              <div className="text-right">
+                              <div className="text-right pr-3">
                                  <button className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={this.upadateduser}>
                                    update 
                                  </button>
                               </div>   
                              }
                              {this.state.userForm._id.value === null &&
-                                <div className="text-right">
+                                <div className="text-right pr-3">
                                    <button disabled={!this.state.formIsValid} className="btn btn-primary btn-user text-center text-justify pull-rigth " onClick ={ this.HandlerSubmit}>
                                       save
                                    </button>
