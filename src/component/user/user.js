@@ -4,7 +4,6 @@ import {getUser,deleteUser,activeDesactiveUser} from  '../../store/action/userAc
 import UserList from './userList'
 import {Link} from 'react-router-dom'
 import Modal from '../../common/modal/Modal'
-import $ from 'jquery'
 
  class user extends Component {
 

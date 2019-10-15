@@ -21,9 +21,17 @@ import logout from './component/logout/logout'
 import Home from './common/home/Home' 
 import Navbar from './common/navbar/Navbar'
 import $ from 'jquery'
+import io from "socket.io-client";
+
+const SOCKET_URI = process.env;
 class App extends Component {
 
  componentDidMount(){
+   setTimeout(() => {
+     console.log(SOCKET_URI)
+   }, 3000);
+   
+  
    this.props.authok()
    $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
@@ -32,6 +40,10 @@ class App extends Component {
     });
 });
  }
+
+ initSocketConnection() {
+  this.socket = io.connect(SOCKET_URI);
+}
 
   render() {
     let routes = (

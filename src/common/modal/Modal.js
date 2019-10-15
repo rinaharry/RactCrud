@@ -25,6 +25,7 @@ const modal = props => (
 
         <div className="modal-footer">
           <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" className="btn btn-danger" data-dismiss="modal">ok</button>
         </div>
         
       </div>
