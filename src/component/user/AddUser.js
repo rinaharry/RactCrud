@@ -10,7 +10,7 @@ class AddUser extends  Component {
   state = {
     userForm:{
       _id:{ 
-        value:this.props.user? this.props.user._id: null,
+        value: this.props.user? this.props.user._id: null,
         valid: true,
         touched: true,   
       },
